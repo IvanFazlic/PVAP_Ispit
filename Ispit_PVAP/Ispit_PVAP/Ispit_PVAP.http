@@ -1,0 +1,6 @@
+@Ispit_PVAP_HostAddress = http://localhost:5005
+
+GET {{Ispit_PVAP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
