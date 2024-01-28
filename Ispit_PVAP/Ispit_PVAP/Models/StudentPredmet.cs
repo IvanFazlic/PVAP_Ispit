@@ -15,3 +15,13 @@ public partial class StudentPredmet
 
     public virtual Student IdStudentaNavigation { get; set; } = null!;
 }
+public partial class StudentPredmetPredmetiStudenta
+{
+    public string Naziv { get; set; } = null!;
+}
+public partial class StudentPredmetDodavanje
+{
+    public int IdStudenta { get; set; }
+
+    public short IdPredmeta { get; set; }
+}

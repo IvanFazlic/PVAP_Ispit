@@ -260,3 +260,4 @@ C:\Users\fazli\OneDrive\Desktop\PVAP_Ispit\Ispit_PVAP\Ispit_PVAP\bin\Debug\net8.
 C:\Users\fazli\OneDrive\Desktop\PVAP_Ispit\Ispit_PVAP\Ispit_PVAP\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\fazli\OneDrive\Desktop\PVAP_Ispit\Ispit_PVAP\Ispit_PVAP\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\fazli\OneDrive\Desktop\PVAP_Ispit\Ispit_PVAP\Ispit_PVAP\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\fazli\OneDrive\Desktop\PVAP_Ispit\Ispit_PVAP\Ispit_PVAP\obj\Debug\net8.0\Ispit_PVAP.sourcelink.json
