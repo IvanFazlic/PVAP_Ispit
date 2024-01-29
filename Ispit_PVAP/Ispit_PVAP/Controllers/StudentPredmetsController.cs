@@ -26,7 +26,29 @@ namespace Ispit_PVAP.Controllers
         {
             return await _context.StudentPredmets.Include(x => x.IdPredmetaNavigation).ToListAsync();
         }
+        // GET: api/StudentPredmets/5
+        [HttpGet("mogucePrijaviti/{id}")]
+        public async Task<ActionResult<IEnumerable<Predmet>>> GetStudentPredmetPrijava(int id)
+        {
 
+            var predmetiUZapisniku = await _context.Zapisniks
+                .Include(x => x.IdIspitaNavigation)
+                .Where(x => x.IdStudenta == id && x.Ocena <= 6)
+                .Select(x => x.IdIspitaNavigation.IdPredmeta)
+                .ToListAsync();
+
+            var predmetiZaPrijavu = await _context.Predmets
+                .Where(predmet => predmetiUZapisniku.Contains(predmet.IdPredmeta))
+                .ToListAsync();
+
+
+            if (predmetiZaPrijavu == null)
+            {
+                return NotFound();
+            }
+
+            return predmetiZaPrijavu;
+        }
         // GET: api/StudentPredmets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<StudentPredmetPredmetiStudenta>>> GetStudentPredmet(int id)
