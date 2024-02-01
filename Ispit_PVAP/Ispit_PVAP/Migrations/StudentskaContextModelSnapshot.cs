@@ -121,6 +121,29 @@ namespace Ispit_PVAP.Migrations
                     b.ToTable("predmet", (string)null);
                 });
 
+            modelBuilder.Entity("Ispit_PVAP.Models.Prijava_brojIndeksa", b =>
+                {
+                    b.Property<int>("IdPrijave")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPrijave"));
+
+                    b.Property<int>("IdIspita")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdStudneta")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdPrijave");
+
+                    b.HasIndex("IdIspita");
+
+                    b.HasIndex("IdStudneta");
+
+                    b.ToTable("Prijava");
+                });
+
             modelBuilder.Entity("Ispit_PVAP.Models.Profesor", b =>
                 {
                     b.Property<short>("IdProfesora")
@@ -270,6 +293,25 @@ namespace Ispit_PVAP.Migrations
                         .HasConstraintName("FK_predmet_profesor");
 
                     b.Navigation("IdProfesoraNavigation");
+                });
+
+            modelBuilder.Entity("Ispit_PVAP.Models.Prijava_brojIndeksa", b =>
+                {
+                    b.HasOne("Ispit_PVAP.Models.Ispit", "IdIspitaNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdIspita")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ispit_PVAP.Models.Student", "IdStudentaNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdStudneta")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IdIspitaNavigation");
+
+                    b.Navigation("IdStudentaNavigation");
                 });
 
             modelBuilder.Entity("Ispit_PVAP.Models.StudentPredmet", b =>

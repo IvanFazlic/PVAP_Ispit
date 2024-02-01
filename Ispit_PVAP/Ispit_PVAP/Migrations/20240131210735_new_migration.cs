@@ -99,6 +99,32 @@ namespace Ispit_PVAP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Prijava",
+                columns: table => new
+                {
+                    IdPrijave = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdIspita = table.Column<int>(type: "int", nullable: false),
+                    IdStudneta = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prijava", x => x.IdPrijave);
+                    table.ForeignKey(
+                        name: "FK_Prijava_ispit_IdIspita",
+                        column: x => x.IdIspita,
+                        principalTable: "ispit",
+                        principalColumn: "ID_ISPITA",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Prijava_student_IdStudneta",
+                        column: x => x.IdStudneta,
+                        principalTable: "student",
+                        principalColumn: "ID_STUDENTA",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "zapisnik",
                 columns: table => new
                 {
@@ -156,6 +182,16 @@ namespace Ispit_PVAP.Migrations
                 column: "ID_PROFESORA");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Prijava_IdIspita",
+                table: "Prijava",
+                column: "IdIspita");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prijava_IdStudneta",
+                table: "Prijava",
+                column: "IdStudneta");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_student_predmet_ID_PREDMETA",
                 table: "student_predmet",
                 column: "ID_PREDMETA");
@@ -169,6 +205,9 @@ namespace Ispit_PVAP.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Prijava");
+
             migrationBuilder.DropTable(
                 name: "student_predmet");
 

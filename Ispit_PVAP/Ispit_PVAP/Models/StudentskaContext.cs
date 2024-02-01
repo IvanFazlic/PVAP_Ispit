@@ -30,9 +30,10 @@ public partial class StudentskaContext : DbContext
 
     public virtual DbSet<Zapisnik> Zapisniks { get; set; }
 
+    public virtual DbSet<Prijava_brojIndeksa> Prijava { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=pabp.viser.edu.rs;Initial Catalog=STUDENTSKA;User ID=student;Password=password;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        => optionsBuilder.UseSqlServer("Data Source=SOURCE_CODE;Initial Catalog=ISPIT;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -189,6 +190,19 @@ public partial class StudentskaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_zapisnik_student");
         });
+
+        modelBuilder.Entity<Prijava_brojIndeksa>()
+        .HasKey(d => d.IdPrijave);
+
+        modelBuilder.Entity<Prijava_brojIndeksa>()
+            .HasOne(d => d.IdIspitaNavigation)
+            .WithMany()
+            .HasForeignKey(pb => pb.IdIspita);
+
+        modelBuilder.Entity<Prijava_brojIndeksa>()
+            .HasOne(pb => pb.IdStudentaNavigation)
+            .WithMany()
+            .HasForeignKey(pb => pb.IdStudneta);
 
         OnModelCreatingPartial(modelBuilder);
          
