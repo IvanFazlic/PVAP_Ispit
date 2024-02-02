@@ -75,9 +75,29 @@ namespace Ispit_PVAP.Controllers
         // POST: api/Zapisniks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Zapisnik>> PostZapisnik(Zapisnik zapisnik)
+        public async Task<ActionResult<Zapisnik>> PostZapisnik(ZapisnikDto zapisnik)
         {
-            _context.Zapisniks.Add(zapisnik);
+            var ispitZaUnos = await _context.Prijava
+                .FirstOrDefaultAsync(x => x.IdStudneta == zapisnik.IdStudenta
+                && x.IdIspita == zapisnik.IdIspita);
+
+            if (ispitZaUnos == null)
+            {
+                return BadRequest();
+            }
+
+            Zapisnik unos = new Zapisnik
+            {
+                IdStudenta = ispitZaUnos.IdStudneta,
+                IdIspita = ispitZaUnos.IdIspita,
+                Bodovi = zapisnik.Bodovi,
+                Ocena = (float)Math.Ceiling(float.Parse(zapisnik.Bodovi) / 10)
+            };
+            if(unos.Ocena < 6 || unos.Ocena > 10)
+            {
+                return BadRequest();
+            }
+            _context.Zapisniks.Add(unos);
             try
             {
                 await _context.SaveChangesAsync();
@@ -94,7 +114,7 @@ namespace Ispit_PVAP.Controllers
                 }
             }
 
-            return CreatedAtAction("GetZapisnik", new { id = zapisnik.IdStudenta }, zapisnik);
+            return CreatedAtAction("GetZapisnik", new { id = unos.IdStudenta }, unos);
         }
 
         // DELETE: api/Zapisniks/5
