@@ -28,17 +28,20 @@ namespace Ispit_PVAP.Controllers
         }
 
         // GET: api/Prijava_brojIndeksa/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Prijava_brojIndeksa>> GetPrijava_brojIndeksa(int id)
+        [HttpGet("{idIspita}")]
+        public async Task<IEnumerable<Test>> GetPrijava_brojIndeksa(int idIspita)
         {
-            var prijava_brojIndeksa = await _context.Prijava.FindAsync(id);
+            var sviIspiti = await _context.Prijava
+                .Where(x => x.IdIspita == idIspita)
+                .GroupBy(x => x.IdIspita)
+                .Select(group => new Test
+                {
+                    IdIspita = group.Key,
+                    Count = group.Count()
+                })
+                .ToListAsync();
 
-            if (prijava_brojIndeksa == null)
-            {
-                return NotFound();
-            }
-
-            return prijava_brojIndeksa;
+            return sviIspiti;
         }
 
         // PUT: api/Prijava_brojIndeksa/5
@@ -72,17 +75,28 @@ namespace Ispit_PVAP.Controllers
             return NoContent();
         }
 
+
         // POST: api/Prijava_brojIndeksa
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Prijava_brojIndeksa>> PostPrijava_brojIndeksa(StudentPredmetDodavanje prijava_brojIndeksa)
         {
+            //Pronadji da li je ispit vec prijavljen
             var proveraPrijavljenogIspita = await _context.Prijava
                 .FirstOrDefaultAsync(x => x.IdStudneta == prijava_brojIndeksa.IdStudenta
                 && x.IdIspitaNavigation.IdPredmeta == prijava_brojIndeksa.IdPredmeta);
+
+            //Proveri da li je predmet u zapisniku
+            var predmetiUZapisniku = await _context.Zapisniks
+                .Include(x => x.IdIspitaNavigation)
+                .FirstOrDefaultAsync(x => x.IdStudenta == prijava_brojIndeksa.IdStudenta
+                && x.IdIspitaNavigation.IdPredmeta == prijava_brojIndeksa.IdPredmeta && x.Ocena <= 6);
+
+            //Pronadji ispit sa odgovarajucim ID-em
             var ispit = await _context.Ispits
                 .FirstOrDefaultAsync(x => x.IdPredmeta == prijava_brojIndeksa.IdPredmeta);
-            if (ispit == null || proveraPrijavljenogIspita!=null)
+            //Proveriti rad
+            if (ispit == null || proveraPrijavljenogIspita != null || predmetiUZapisniku==null)
             {
                 return BadRequest();
             }

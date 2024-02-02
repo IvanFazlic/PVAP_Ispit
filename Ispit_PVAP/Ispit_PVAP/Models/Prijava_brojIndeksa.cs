@@ -13,4 +13,9 @@
         public int IdStudneta { get; set; }
         public int IdPredmeta { get; set; }
     }
+    public class Test
+    {
+        public int IdIspita { get; set; }
+        public int Count { get; set; }
+    }
 }
