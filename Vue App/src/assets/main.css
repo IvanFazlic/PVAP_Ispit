@@ -1,0 +1,98 @@
+body{
+  background: #1488CC;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2B32B2, #1488CC);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.izmena{
+  transition: 300ms;
+  background-color:lightcoral;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px;
+}
+.izmena:hover{
+  transition: 300ms;
+  background-color:rgb(245, 162, 162);
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px;
+}
+.brisanje{
+  transition: 300ms;
+  background-color:red;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px 5px;
+}
+.brisanje:hover{
+  transition: 300ms;
+  background-color:red;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px 5px;
+}
+.tr-hover:hover{
+  transition: 300ms;
+  background-color: aqua;
+}
+.prikaziPredmete{
+  transition: 300ms;
+  background-color:rgb(7, 184, 7);
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px;
+}
+.prikaziPredmete:hover{
+  transition: 300ms;
+  background-color:rgb(109, 245, 109);;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  margin: 0;
+  padding: 3px;
+}
+.dodaj{
+  transition: 300ms;
+  background-color:yellow;
+  border: 0;
+  cursor: pointer;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+.dodaj:hover{
+  transition: 300ms;
+  background-color:yellow;
+  border: 0;
+  color: white;
+  cursor: pointer;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+.zapisnik{
+  transition: 300ms;
+  background-color:rgb(7, 195, 63);
+  border: 0;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.zapisnik:hover{
+  transition: 300ms;
+  background-color:rgb(7, 195, 63);
+  border: 0;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
