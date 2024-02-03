@@ -49,10 +49,6 @@ namespace Ispit_PVAP.Controllers
                 || student.GodinaUpisa.Contains(kriterijumPretrage))
                 .ToListAsync();
 
-            if (studenti.Count == 0)
-            {
-                return NotFound();
-            }
             var noviStudenti = studenti.Select(student => new NoviStudent
             {
                 IdStudenta = student.IdStudenta,

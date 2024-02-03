@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
+import axios from 'axios'
 import Student from './Student.vue';
 import PORT from '../assets/PORT'
 
@@ -8,6 +9,19 @@ const props = defineProps(["inicijalniStudenti", "podaciZapisnika"])
 const kriterijumPretrage = ref("")
 
 const studenti = computed(() => {
+    if(kriterijumPretrage.value!=""){
+        axios.get(`https://localhost:${PORT}/api/Students/${kriterijumPretrage.value}`)
+        .then(res=>{
+            return res.data
+        })
+    }else{
+        axios.get(`https://localhost:${PORT}/api/Students`)
+        .then(res=>{
+            return res.data
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
     return props.inicijalniStudenti.filter(student => {
         for (let studentKey in student) {
             if (student[studentKey] != null && student[studentKey]
