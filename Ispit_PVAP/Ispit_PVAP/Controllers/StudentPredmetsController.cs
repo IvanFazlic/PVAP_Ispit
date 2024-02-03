@@ -21,44 +21,51 @@ namespace Ispit_PVAP.Controllers
         }
 
         // GET: api/StudentPredmets
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentPredmet>>> GetStudentPredmets()
+        [HttpGet("test/{id}")]
+        public async Task<ActionResult<IEnumerable<StudentPredmet>>> GetStudentPredmets(int id)
         {
-            return await _context.StudentPredmets.Include(x => x.IdPredmetaNavigation).ToListAsync();
+            var ret =await _context.StudentPredmets.Where(x=> x.IdStudenta == id).ToListAsync();
+            return ret;
         }
         // GET: api/StudentPredmets/5
         [HttpGet("mogucePrijaviti/{id}")]
         public async Task<ActionResult<IEnumerable<Predmet>>> GetStudentPredmetPrijava(int id)
         {
-
-            var predmetiUZapisniku = await _context.Zapisniks
-                .Include(x => x.IdIspitaNavigation)
-                .Where(x => x.IdStudenta == id && x.Ocena <= 6)
-                .Select(x => x.IdIspitaNavigation.IdPredmeta)
+            //hvatamo sve predmete studneta
+            var studentPredmet = await _context.StudentPredmets.Include(x => x.IdPredmetaNavigation)
+                .Where(x => x.IdStudenta == id).ToListAsync();
+            // Trazimo sve ispite koji se nalaze u zapisniku od studenta
+            var zapisnik = await _context.Zapisniks.Include(x=>x.IdIspitaNavigation)
+                .Where(x => x.IdStudenta == id)
+                .Select(x=>x.IdIspitaNavigation.IdIspita)
                 .ToListAsync();
-
-            var predmetiZaPrijavu = await _context.Predmets
-                .Where(predmet => predmetiUZapisniku.Contains(predmet.IdPredmeta))
+            //[3,17]
+            // Trazimo sve predmete koji se nalaze u zapisniku
+            var predmets = await _context.Ispits
+                .Where(x => zapisnik.Contains(x.IdIspita))
+                .Select(x => x.IdPredmeta)
                 .ToListAsync();
+            //[4238,3521,6752]
+            var studentPredmetWithoutZapisnik = studentPredmet
+                .Where(sp => !predmets.Contains(sp.IdPredmeta))
+                .Select(x => x.IdPredmetaNavigation)
+                .ToList();
 
-
-            if (predmetiZaPrijavu == null)
+            if (studentPredmetWithoutZapisnik == null)
             {
                 return NotFound();
             }
 
-            return predmetiZaPrijavu;
+            return studentPredmetWithoutZapisnik;
         }
         // GET: api/StudentPredmets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<StudentPredmetPredmetiStudenta>>> GetStudentPredmet(int id)
+        public async Task<ActionResult<IEnumerable<Predmet>>> GetStudentPredmet(int id)
         {
             var studentPredmet = await _context.StudentPredmets
                 .Where(x => x.IdStudenta == id)
                 .Include(x=>x.IdPredmetaNavigation)
-                .Select(x => new StudentPredmetPredmetiStudenta {
-                    Naziv = x.IdPredmetaNavigation.Naziv 
-                })
+                .Select(x => x.IdPredmetaNavigation)
                 .ToListAsync();
             if (studentPredmet == null)
             {

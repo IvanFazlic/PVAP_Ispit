@@ -90,13 +90,13 @@ namespace Ispit_PVAP.Controllers
             var predmetiUZapisniku = await _context.Zapisniks
                 .Include(x => x.IdIspitaNavigation)
                 .FirstOrDefaultAsync(x => x.IdStudenta == prijava_brojIndeksa.IdStudenta
-                && x.IdIspitaNavigation.IdPredmeta == prijava_brojIndeksa.IdPredmeta && x.Ocena <= 6);
+                && x.IdIspitaNavigation.IdPredmeta == prijava_brojIndeksa.IdPredmeta);
 
             //Pronadji ispit sa odgovarajucim ID-em
             var ispit = await _context.Ispits
                 .FirstOrDefaultAsync(x => x.IdPredmeta == prijava_brojIndeksa.IdPredmeta);
             //Proveriti rad
-            if (ispit == null || proveraPrijavljenogIspita != null || predmetiUZapisniku==null)
+            if (ispit == null || proveraPrijavljenogIspita != null || predmetiUZapisniku!=null)
             {
                 return BadRequest();
             }
