@@ -18,6 +18,8 @@ let predmetiZapisnika = ref([])
 let predmetiZaDodavanje = ref([])
 
 const dohvatiPredmeteStudenta = async () => {
+    
+    const sviPredmeti = await axios.get(`https://localhost:${PORT}/api/StudentPredmets/${props.data.values.idStudenta}`)
     const dohvatiFiltriraneStudente = await axios.get(`http://pabp.viser.edu.rs:8000/api/StudentPredmets`)
     const dohvatiPredmete = await axios.get(`http://pabp.viser.edu.rs:8000/api/Predmets`)
     const dohvatiZapisnik = await axios.get(`http://pabp.viser.edu.rs:8000/api/Zapisniks`)
