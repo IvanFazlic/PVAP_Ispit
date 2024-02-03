@@ -1,4 +1,5 @@
 <script setup>
+import PORT from './assets/PORT'
 import { reactive, ref, onMounted } from 'vue';
 import IzmenaPodataka from './components/IzmenaPodataka.vue';
 import Studenti from './components/Studenti.vue';
@@ -16,8 +17,8 @@ const showIzmeni = ref(false)
 
 const dohvatiPodatke = async () => {
     
-    let dohvaceniStudenti = await axios.get("http://pabp.viser.edu.rs:8000/api/Students")
-    let dohvaceniZapisnik = await axios.get("http://pabp.viser.edu.rs:8000/api/Zapisniks")
+    let dohvaceniStudenti = await axios.get(`https://localhost:${PORT}/api/Students`)
+    let dohvaceniZapisnik = await axios.get(`https://localhost:${PORT}/api/Zapisniks`)
     inicijalniStudenti.value = await dohvaceniStudenti.data
     podaciZapisnika.value = await dohvaceniZapisnik.data
     showIzmeni.value = false

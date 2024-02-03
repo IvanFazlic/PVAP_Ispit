@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import axios from 'axios';
 import Predmet from './Predmet.vue'
-
+import PORT from '../assets/PORT'
 const toggle = ref(true)
 const props = defineProps(["data"])
 

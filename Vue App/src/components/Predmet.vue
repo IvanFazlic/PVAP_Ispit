@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps(["data","toggle"])
-
+import PORT from '../assets/PORT'
 </script>
 
 <template>

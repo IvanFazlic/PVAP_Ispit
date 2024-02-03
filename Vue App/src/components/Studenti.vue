@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import Student from './Student.vue';
+import PORT from '../assets/PORT'
+
 defineEmits(["handleRequest"])
 const props = defineProps(["inicijalniStudenti", "podaciZapisnika"])
 const kriterijumPretrage = ref("")

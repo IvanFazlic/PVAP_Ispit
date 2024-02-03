@@ -1,8 +1,9 @@
 <script setup>
 import {ref} from 'vue'
+import PORT from '../assets/PORT'
+
 const props = defineProps(["dataZapisnik"])
 const zapisnik = ref(false)
-console.log(props.dataZapisnik);
 </script>
 
 <template>
