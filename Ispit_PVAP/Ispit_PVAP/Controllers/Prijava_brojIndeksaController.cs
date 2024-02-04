@@ -108,7 +108,7 @@ namespace Ispit_PVAP.Controllers
             _context.Prijava.Add(prijava);
 
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetPrijava_brojIndeksa", new { id = prijava.IdPrijave }, prijava);
+            return CreatedAtAction("PostPrijava_brojIndeksa", new { id = prijava.IdPrijave }, prijava);
         }
 
         // DELETE: api/Prijava_brojIndeksa/5
