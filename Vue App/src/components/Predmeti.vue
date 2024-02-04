@@ -19,18 +19,15 @@ let predmetiZaDodavanje = ref([])
 
 const dohvatiPredmeteStudenta = async () => {
     
-    const sviPredmeti = await axios.get(`https://localhost:${PORT}/api/StudentPredmets/${props.data.values.idStudenta}`)
-    const dohvatiFiltriraneStudente = await axios.get(`http://pabp.viser.edu.rs:8000/api/StudentPredmets`)
-    const dohvatiPredmete = await axios.get(`http://pabp.viser.edu.rs:8000/api/Predmets`)
-    const dohvatiZapisnik = await axios.get(`http://pabp.viser.edu.rs:8000/api/Zapisniks`)
-    const dohvatiIspite = await axios.get(`http://pabp.viser.edu.rs:8000/api/Ispits`)
-    const dohvatiRokove = await axios.get(`http://pabp.viser.edu.rs:8000/api/IspitniRoks`)
+    const sviPredmetiStudenta = await axios.get(`https://localhost:${PORT}/api/StudentPredmets/${props.data.values.idStudenta}`)
+    const dohvatiFiltriraneStudente = await axios.get(`https://localhost:${PORT}/api/StudentPredmets`)
+    const dohvatiZapisnik = await axios.get(`https://localhost:${PORT}/api/Zapisniks`)
+    const dohvatiIspite = await axios.get(`https://localhost:${PORT}/api/Ispits`)
 
     predmetiStudenta.value = await dohvatiFiltriraneStudente.data.filter(predmet => predmet.idStudenta == props.data.values.idStudenta)
     zapisnikStudenta.value = await dohvatiZapisnik.data.filter(zapisnik => zapisnik.idStudenta == props.data.values.idStudenta)
     ispitiStudenta.value = await dohvatiIspite.data
-    sviPredmeti.value = await dohvatiPredmete.data
-    rokovi.value = await dohvatiRokove.data
+    sviPredmeti.value = await sviPredmetiStudenta.data
 
     predmeti.value = sviPredmeti.value.filter(p1 =>
         predmetiStudenta.value.some(p2 => p2.idPredmeta === p1.idPredmeta)

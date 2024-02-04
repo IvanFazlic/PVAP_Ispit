@@ -19,7 +19,12 @@ namespace Ispit_PVAP.Controllers
         {
             _context = context;
         }
-
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<StudentPredmet>>> ReturnAllElements(int id)
+        {
+            
+            return await _context.StudentPredmets.ToListAsync();
+        }
         // GET: api/StudentPredmets
         [HttpGet("test/{id}")]
         public async Task<ActionResult<IEnumerable<StudentPredmet>>> GetStudentPredmets(int id)
