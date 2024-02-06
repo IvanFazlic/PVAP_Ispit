@@ -1,10 +1,10 @@
 <script setup>
-const props = defineProps(["data","toggle"])
+const props = defineProps(["data","toggle","zapisnikStudneta"])
 import PORT from '../assets/PORT'
 </script>
 
 <template>
-    <tr :style="props.data.ocena > 5 || props.toggle ? {} : {backgroundColor:'yellow'}" class="tr-hover">
+    <tr :style="!props.zapisnikStudneta.includes(props.data.idPredmeta) || props.toggle ? {} : {backgroundColor:'yellow'}" class="tr-hover">
         <td>{{ props.data.idPredmeta }}</td>
         <td>{{ props.data.idProfesora }}</td>
         <td>{{ props.data.naziv }}</td>

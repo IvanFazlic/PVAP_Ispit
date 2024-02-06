@@ -6,11 +6,7 @@ import PORT from '../assets/PORT'
 const toggle = ref(true)
 const props = defineProps(["data"])
 
-let sviPredmeti = ref([])
-let predmetiStudenta = ref([])
-let ispitiStudenta = ref([])
-let zapisnikStudenta = ref([])
-let rokovi = ref([])
+
 let dodavanje = ref([])
 
 let predmeti = ref([])
@@ -21,9 +17,10 @@ const dohvatiPredmeteStudenta = async () => {
     
     const sviPredmetiStudenta = await axios.get(`https://localhost:${PORT}/api/StudentPredmets/${props.data.values.idStudenta}`)
     const dohvatiPredmeteZaDodavanje = await axios.get(`https://localhost:7129/api/StudentPredmets/moguceDodati/${props.data.values.idStudenta}`)
-
+    const zapisnikStudenta = await axios.get(`https://localhost:7129/api/Zapisniks/${props.data.values.idStudenta}`)
     predmetiZaDodavanje = dohvatiPredmeteZaDodavanje.data
     predmeti.value = sviPredmetiStudenta.data
+    predmetiZapisnika = zapisnikStudenta.data
 
 }
 const obrisiPredmet = (idStudenta, idPredmeta) => {
@@ -85,7 +82,7 @@ const dodajPredmete = () => {
                 <th>Status predmeta</th>
             </thead>
             <tbody>
-                <Predmet v-for="p in predmeti" :data="p" @handlePredmet="(arg, req) => handlePredmet(arg, req)"
+                <Predmet v-for="p in predmeti" :data="p" :zapisnikStudneta="predmetiZapisnika" @handlePredmet="(arg, req) => handlePredmet(arg, req)"
                     :toggle="toggle"></Predmet>
             </tbody>
         </table>

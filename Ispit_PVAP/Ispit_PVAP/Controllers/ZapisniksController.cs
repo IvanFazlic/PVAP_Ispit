@@ -28,15 +28,15 @@ namespace Ispit_PVAP.Controllers
         }
 
         // GET: api/Zapisniks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Zapisnik>> GetZapisnik(int id)
+        [HttpGet("{idStudent}")]
+        public async Task<List<short>> VratiPredmeteZapisnika(int idStudent)
         {
-            var zapisnik = await _context.Zapisniks.FindAsync(id);
-
-            if (zapisnik == null)
-            {
-                return NotFound();
-            }
+            var zapisnik = await _context.Zapisniks
+                .Include(x => x.IdStudentaNavigation)
+                .Include(x => x.IdIspitaNavigation)
+                .Where(x => x.IdStudentaNavigation.IdStudenta == idStudent)
+                .Select(x => x.IdIspitaNavigation.IdPredmeta)
+                .ToListAsync();
 
             return zapisnik;
         }

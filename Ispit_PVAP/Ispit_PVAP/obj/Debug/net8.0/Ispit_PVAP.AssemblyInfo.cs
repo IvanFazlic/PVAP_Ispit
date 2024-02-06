@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ispit_PVAP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c1156eb24f891c41bc7823c48f3826d2bf2a71e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e12440ca78d3ad2bebda7a866b422fdd7ea9a30")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ispit_PVAP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ispit_PVAP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
