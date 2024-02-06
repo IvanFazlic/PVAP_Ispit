@@ -20,36 +20,20 @@ let predmetiZaDodavanje = ref([])
 const dohvatiPredmeteStudenta = async () => {
     
     const sviPredmetiStudenta = await axios.get(`https://localhost:${PORT}/api/StudentPredmets/${props.data.values.idStudenta}`)
-    const dohvatiFiltriraneStudente = await axios.get(`https://localhost:${PORT}/api/StudentPredmets`)
-    const dohvatiZapisnik = await axios.get(`https://localhost:${PORT}/api/Zapisniks`)
-    const dohvatiIspite = await axios.get(`https://localhost:${PORT}/api/Ispits`)
+    const dohvatiPredmeteZaDodavanje = await axios.get(`https://localhost:7129/api/StudentPredmets/moguceDodati/${props.data.values.idStudenta}`)
 
-    predmetiStudenta.value = await dohvatiFiltriraneStudente.data.filter(predmet => predmet.idStudenta == props.data.values.idStudenta)
-    zapisnikStudenta.value = await dohvatiZapisnik.data.filter(zapisnik => zapisnik.idStudenta == props.data.values.idStudenta)
-    ispitiStudenta.value = await dohvatiIspite.data
-    sviPredmeti.value = await sviPredmetiStudenta.data
+    predmetiZaDodavanje = dohvatiPredmeteZaDodavanje.data
+    predmeti.value = sviPredmetiStudenta.data
 
-    predmeti.value = sviPredmeti.value.filter(p1 =>
-        predmetiStudenta.value.some(p2 => p2.idPredmeta === p1.idPredmeta)
-    );
-    predmetiZaDodavanje.value = sviPredmeti.value.filter(p1 =>
-        !predmetiStudenta.value.some(p2 => p2.idPredmeta === p1.idPredmeta)
-    )
-    predmetiZapisnika.value = zapisnikStudenta.value.map(obj1 => {
-        const matchingObj = ispitiStudenta.value.find(obj2 => obj1.idIspita === obj2.idIspita);
-        return { ...obj1, ...matchingObj }
-    });
-
-    predmeti.value = predmeti.value.map(obj1 => {
-        const matchingObj = predmetiZapisnika.value.find(obj2 => obj1.idPredmeta === obj2.idPredmeta);
-        return { ...obj1, ...matchingObj }
-    })
 }
 const obrisiPredmet = (idStudenta, idPredmeta) => {
-    axios.delete(`http://pabp.viser.edu.rs:8000/api/StudentPredmets/${idStudenta}/${idPredmeta}`)
+    axios.delete(`https://localhost:${PORT}/api/StudentPredmets/${idStudenta}/${idPredmeta}`)
         .then((res) => {
             dohvatiPredmeteStudenta()
             alert("Uspesno obrisan predmet")
+        })
+        .catch(err=>{
+            alert("Ne mogu taj.")
         })
 }
 
@@ -69,16 +53,13 @@ const dodajPredmete = () => {
         alert("Nista dodali predmet.")
         return
     }
-    let predmeti = predmetiZaDodavanje.value.filter(p1 =>
-        dodavanje.value.some(p2 => p2.idPredmeta == p1.idPredmeta)
-    )
+    let predmeti = dodavanje.value
     predmeti.forEach(element => {
         let elementZaSlanje = {
             "idStudenta": props.data.values.idStudenta,
             "idPredmeta": element.idPredmeta,
-            "skolskaGodina": `${new Date().getFullYear()}/${(new Date().getFullYear() + 1).toString().slice(-2)}`
         }
-        axios.post(`http://pabp.viser.edu.rs:8000/api/StudentPredmets`, elementZaSlanje)
+        axios.post(`https://localhost:${PORT}/api/StudentPredmets`, elementZaSlanje)
             .then(() => {
                 alert(`Dodat predmet "${element.naziv}" studentu "${props.data.values.ime}"`)
             })

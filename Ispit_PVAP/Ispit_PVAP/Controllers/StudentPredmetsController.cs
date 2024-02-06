@@ -79,6 +79,28 @@ namespace Ispit_PVAP.Controllers
 
             return studentPredmet;
         }
+        [HttpGet("moguceDodati/{idStudenta}")]
+        public async Task<ActionResult<IEnumerable<Predmet>>> GetPredmetiStudentaZaDodavanje(int idStudenta)
+        {
+            var sviPredmeti = await _context.Predmets.ToListAsync();
+
+            var studentPredmets = await _context.StudentPredmets
+                .Where(x => x.IdStudenta == idStudenta)
+                .Select(x => x.IdPredmeta)
+                .ToListAsync();
+
+            var predmetUZapisniku = await _context.Zapisniks
+                .Include(x => x.IdIspitaNavigation)
+                .Where(x => x.IdStudenta == idStudenta)
+                .Select(x => x.IdIspitaNavigation.IdPredmeta)
+                .ToListAsync();
+
+            var predmetiZaPrijavu = sviPredmeti
+                .Where(x => !studentPredmets.Contains(x.IdPredmeta) && !predmetUZapisniku.Contains(x.IdPredmeta))
+                .ToList();
+
+            return predmetiZaPrijavu;
+        }
 
         // PUT: api/StudentPredmets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -147,7 +169,7 @@ namespace Ispit_PVAP.Controllers
                     throw;
                 }
             }
-            return CreatedAtAction("GetStudentPredmet", new { id = studentZaDodavanje.IdStudenta }, studentZaDodavanje);
+            return CreatedAtAction("PostStudentPredmet", new { id = studentZaDodavanje.IdStudenta }, studentZaDodavanje);
         }
 
 
